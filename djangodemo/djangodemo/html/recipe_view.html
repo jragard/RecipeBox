@@ -1,0 +1,21 @@
+<body>
+        <h2>
+            recipe
+            
+        </h2>
+        <p><a href="/">home</a></p>
+        <ul>
+            {% for item in data %}
+                <li>
+                    {{ item.title }} -- by 
+                        <a href="http://localhost:8000/author/{{item.author}}">{{ item.author }}</a>
+                    <ul>
+                        <li>
+                            {{ item.body }}
+                        </li>
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+        
+</body>

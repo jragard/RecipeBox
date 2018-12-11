@@ -1,0 +1,6 @@
+
+<form action="/addrecipe/" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type:"submit" value="Submit">
+</form>

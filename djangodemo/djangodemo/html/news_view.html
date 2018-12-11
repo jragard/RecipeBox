@@ -1,0 +1,18 @@
+<body>
+    <h2>
+        my totally legit news site!!
+    </h2>
+    <ul>
+        {% for item in data %}
+            <li>
+                {{ item.title }} -- by {{ item.author }}
+                <ul>
+                    <li>
+                        {{ item.body }}
+                    </li>
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+</body>

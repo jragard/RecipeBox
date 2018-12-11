@@ -1,0 +1,21 @@
+<body>
+        <h2>
+                <a href="/">recipes</a>
+        </h2>
+        <ul>
+            {% for item in data %}
+                <li>
+                    <a href="recipe/{{item.pk}}">{{ item.title }}</a>.
+                     -- by 
+                     <a href="author/{{item.author}}">{{ item.author }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="addrecipe/"> Add a new recipe </a>
+        <br>
+        <a href="logout/"> logout </a>
+        <br>
+        <a href="signup/"> Signup here </a>
+        <br>
+        <a href="login/"> login here </a>
+</body>
