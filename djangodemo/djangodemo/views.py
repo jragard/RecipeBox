@@ -46,7 +46,9 @@ def add_recipe_view(request):
             RecipeItem.objects.create(
                 title=data['title'],
                 body=data['body'],
-                author=Author.objects.filter(id=data['author']).first()
+                author=Author.objects.filter(id=data['author']).first(),
+                time_required=data['time_required'],
+                instructions=data['instructions']
             )
             return HttpResponseRedirect(reverse('homepage'))
 

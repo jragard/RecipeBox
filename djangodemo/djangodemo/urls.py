@@ -14,8 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
-# from djangodemo.views import news_view
+from django.urls import path
+
 from djangodemo.views import recipes_view, recipe_detail_view
 from djangodemo.views import author_detail_view
 from djangodemo.views import add_recipe_view
@@ -27,12 +27,11 @@ from djangodemo.views import logout_view
 from djangodemo.models import Author, RecipeItem
 
 admin.site.register(Author)
-# admin.site.register(NewsItem)
 admin.site.register(RecipeItem)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # the name adds a property that we can use to target the path
+   
     path('', recipes_view, name='homepage'),
     path('recipe/<int:pk>', recipe_detail_view),
     path('author/<str:name>', author_detail_view),
