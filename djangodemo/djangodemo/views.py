@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from djangodemo.models import RecipeItem, Author
-from djangodemo.forms import AddRecipe, AddAuthor, LoginForm, SignupForm
+from djangodemo.forms import AddRecipe, AddAuthor, LoginForm, SignupForm, RecipeUpdate
+from djangodemo.settings import BASE_DIR
+import json
 
 # auth Package imports
 from django.contrib.auth.models import User
@@ -15,8 +17,23 @@ def recipe_detail_view(request, pk):
 
 
 def recipes_view(request):
+    print(BASE_DIR)
     results = RecipeItem.objects.all()
     return render(request, 'recipes_view.html', {'data': results})
+
+
+
+def success_view(request):
+    print(request)
+    
+    string = ''
+    if request.method == 'POST':
+        print(request)
+        for x in request:
+            string+=str(x)
+    print(string)
+
+    return render(request, 'thanks.html')
 
 
 def author_detail_view(request, name):
@@ -57,6 +74,16 @@ def add_recipe_view(request):
 
     else:
         return render(request, 'unauthorized.html')
+
+    return render(request, html, {'form': form})
+
+
+def update_recipe_view(request, pk):
+    html = 'recipeitem_update_form.html'
+    form = None
+
+    if request.method == 'GET':
+        form = RecipeUpdate()
 
     return render(request, html, {'form': form})
 

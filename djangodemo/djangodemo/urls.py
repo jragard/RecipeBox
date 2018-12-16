@@ -16,13 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from djangodemo.views import recipes_view, recipe_detail_view
+from djangodemo.views import recipes_view, recipe_detail_view, update_recipe_view, success_view
 from djangodemo.views import author_detail_view
 from djangodemo.views import add_recipe_view
 from djangodemo.views import add_author_view
 from djangodemo.views import login_view
 from djangodemo.views import signup_view
 from djangodemo.views import logout_view
+
+from djangodemo.forms import RecipeUpdate
 
 from djangodemo.models import Author, RecipeItem
 
@@ -34,6 +36,8 @@ urlpatterns = [
    
     path('', recipes_view, name='homepage'),
     path('recipe/<int:pk>', recipe_detail_view),
+    path('recipe/edit/<int:pk>', RecipeUpdate.as_view()),
+    path('recipe/edit', success_view),
     path('author/<str:name>', author_detail_view),
     path('addrecipe/', add_recipe_view),
     path('addauthor/', add_author_view, name='addauthor'),

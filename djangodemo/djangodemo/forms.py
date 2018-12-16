@@ -1,5 +1,7 @@
 from django import forms
-# from djangodemo.models import Author
+from django.views.generic.edit import UpdateView
+from djangodemo.models import RecipeItem
+from django.shortcuts import get_object_or_404
 
 
 class AddRecipe(forms.Form):
@@ -12,6 +14,33 @@ class AddRecipe(forms.Form):
     author = forms.ChoiceField()
     time_required = forms.CharField(max_length=50)
     instructions = forms.CharField(widget=forms.Textarea)
+
+
+class RecipeModelForm(forms.ModelForm):
+    class Meta:
+        model = RecipeItem
+        fields = ['title', 'body', 'author', 'time_required', 'instructions']
+
+
+class RecipeUpdate(UpdateView):
+    # model = RecipeItem
+    # fields = ['title', 'body', 'time_required', 'instructions']
+    # template_name_suffix = '_update_form'
+    template_name = 'html/recipeitem_update_form.html'
+    form_class = RecipeModelForm
+    # queryset = RecipeItem.objects.all()
+
+
+
+    def get_object(self):
+        # id_ = self.kwargs.get('pk')
+        # print(self.kwargs['pk'])
+        # print(id_)
+        return RecipeItem.objects.filter(id=self.kwargs['pk']).first()
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
 
 
 class AddAuthor(forms.Form):
