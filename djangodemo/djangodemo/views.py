@@ -18,10 +18,13 @@ class RecipeUpdate(UpdateView):
 
 def recipe_detail_view(request, pk):
     result = RecipeItem.objects.filter(id=pk)
+
     for x in result:
         author = str(x.author)
+
     logged_in_user = str(request.user)
-    return render(request, 'recipe_view.html', {'data': result, 'user': logged_in_user, 'author': author})
+    staff = request.user.is_staff
+    return render(request, 'recipe_view.html', {'data': result, 'user': logged_in_user, 'author': author, 'staff': staff})
 
 
 def recipes_view(request):

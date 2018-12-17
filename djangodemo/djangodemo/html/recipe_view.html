@@ -24,7 +24,7 @@
             {% endfor %}
         </ul>
 
-        {% if user == author %}
+        {% if user == author or staff%}
             {% for item in data %}
                 <a href="http://localhost:8000/recipe/edit/{{ item.id }}">Edit This Recipe</a>
             {% endfor %}
