@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect, reverse
 from djangodemo.models import RecipeItem, Author
 from djangodemo.forms import AddRecipe, AddAuthor, LoginForm, SignupForm, RecipeUpdate
 from djangodemo.settings import BASE_DIR
-import json
+
 
 # auth Package imports
 from django.contrib.auth.models import User
@@ -20,7 +20,6 @@ def recipes_view(request):
     print(BASE_DIR)
     results = RecipeItem.objects.all()
     return render(request, 'recipes_view.html', {'data': results})
-
 
 
 def success_view(request):
@@ -138,7 +137,7 @@ def login_view(request):
     if form.is_valid():
         data = form.cleaned_data
         user = authenticate(username=data['username'], password=data['password'])
-        
+
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse('homepage'))
