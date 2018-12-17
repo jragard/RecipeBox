@@ -1,6 +1,4 @@
 from django import forms
-from django.views.generic.edit import UpdateView
-from djangodemo.models import RecipeItem
 
 
 class AddRecipe(forms.Form):
@@ -13,12 +11,6 @@ class AddRecipe(forms.Form):
     author = forms.ChoiceField()
     time_required = forms.CharField(max_length=50)
     instructions = forms.CharField(widget=forms.Textarea)
-
-
-class RecipeUpdate(UpdateView):
-    model = RecipeItem
-    fields = ['title', 'body', 'time_required', 'instructions']
-    template_name = 'recipeitem_update_form.html'
 
 
 class AddAuthor(forms.Form):

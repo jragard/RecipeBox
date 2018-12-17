@@ -1,38 +1,33 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from djangodemo.models import RecipeItem, Author
-from djangodemo.forms import AddRecipe, AddAuthor, LoginForm, SignupForm, RecipeUpdate
+from djangodemo.forms import AddRecipe, AddAuthor, LoginForm, SignupForm
 from djangodemo.settings import BASE_DIR
+from django.views.generic.edit import UpdateView
 
-
-# auth Package imports
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 
+class RecipeUpdate(UpdateView):
+    model = RecipeItem
+    fields = ['title', 'body', 'time_required', 'instructions']
+    template_name = 'recipeitem_update_form.html'
+
+
 def recipe_detail_view(request, pk):
     result = RecipeItem.objects.filter(id=pk)
-    return render(request, 'recipe_view.html', {'data': result})
+    for x in result:
+        author = str(x.author)
+    logged_in_user = str(request.user)
+    return render(request, 'recipe_view.html', {'data': result, 'user': logged_in_user, 'author': author})
 
 
 def recipes_view(request):
     print(BASE_DIR)
     results = RecipeItem.objects.all()
     return render(request, 'recipes_view.html', {'data': results})
-
-
-def success_view(request):
-    print(request)
-    
-    string = ''
-    if request.method == 'POST':
-        print(request)
-        for x in request:
-            string+=str(x)
-    print(string)
-
-    return render(request, 'thanks.html')
 
 
 def author_detail_view(request, name):
@@ -73,16 +68,6 @@ def add_recipe_view(request):
 
     else:
         return render(request, 'unauthorized.html')
-
-    return render(request, html, {'form': form})
-
-
-def update_recipe_view(request, pk):
-    html = 'recipeitem_update_form.html'
-    form = None
-
-    if request.method == 'GET':
-        form = RecipeUpdate()
 
     return render(request, html, {'form': form})
 
