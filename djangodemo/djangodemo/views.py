@@ -1,13 +1,11 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse
 from djangodemo.models import RecipeItem, Author
 from djangodemo.forms import AddRecipe, AddAuthor, LoginForm, SignupForm
-from djangodemo.settings import BASE_DIR
 from django.views.generic.edit import UpdateView
 
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
 
 
 class RecipeUpdate(UpdateView):
@@ -23,56 +21,57 @@ def recipe_detail_view(request, pk):
         author = str(x.author)
 
     logged_in_user = Author.objects.filter(name=request.user)
-    print(str(logged_in_user.first()))
-    print(str(request.user))
     staff = request.user.is_staff
 
-    # favorites = []
-
     if request.method == 'POST':
-        targeted_recipe = RecipeItem.objects.filter(title=request.POST['title']).first()
-        print(targeted_recipe)
-        print(logged_in_user.first())
+        targeted_recipe = (RecipeItem.objects.filter(
+                           title=request.POST['title']).first()
+                           )
         targeted_recipe.favorites.add(logged_in_user.first())
         targeted_recipe.save()
-        print(targeted_recipe.favorites.all())
 
-
-
-    return render(request, 'recipe_view.html', {'data': result, 'request_user': str(request.user), 'logged_in_user': str(logged_in_user.first()), 'author': author, 'staff': staff})
+    return render(request, 'recipe_view.html',
+                  {'data': result,
+                   'request_user': str(request.user),
+                   'logged_in_user': str(logged_in_user.first()),
+                   'author': author,
+                   'staff': staff
+                   })
 
 
 def favorites_view(request, name):
     user = Author.objects.filter(name=name)
-    
+
     favorites_list = []
     all_recipes = RecipeItem.objects.all()
-    # print(all_recipes)
-    
+
     for recipe in all_recipes:
-        print(recipe.favorites.all())
         for author in recipe.favorites.all():
-            print(author.name)
             if author.name == user.first().name:
-                print('yes')
                 favorites_list.append(recipe)
 
-    print(favorites_list)
+    return render(request, 'favorites_view.html',
+                  {'favorites': favorites_list})
 
-    return render(request, 'favorites_view.html', {'favorites': favorites_list})
 
 def recipes_view(request):
-    
-    results = RecipeItem.objects.all()
 
+    results = RecipeItem.objects.all()
     logged_in_user = Author.objects.filter(name=request.user)
-    return render(request, 'recipes_view.html', {'data': results, 'logged_in_user': str(logged_in_user.first()), 'request_user': str(request.user)})
+
+    return render(request, 'recipes_view.html',
+                  {'data': results,
+                   'logged_in_user': str(logged_in_user.first()),
+                   'request_user': str(request.user)
+                   })
 
 
 def author_detail_view(request, name):
     results = Author.objects.filter(name=name)
     recipes = RecipeItem.objects.all().filter(author__name=name)
-    return render(request, 'authors_view.html', {'data': results, 'recipes': recipes})
+    return render(request, 'authors_view.html', {'data': results,
+                                                 'recipes': recipes
+                                                 })
 
 
 @login_required()
@@ -160,7 +159,8 @@ def login_view(request):
 
     if form.is_valid():
         data = form.cleaned_data
-        user = authenticate(username=data['username'], password=data['password'])
+        user = authenticate(username=data['username'],
+                            password=data['password'])
 
         if user is not None:
             login(request, user)

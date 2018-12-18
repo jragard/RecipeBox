@@ -16,9 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from djangodemo.models import Author, RecipeItem
-from djangodemo.views import (recipes_view, recipe_detail_view, 
-                              author_detail_view, add_recipe_view, 
-                              add_author_view, login_view, signup_view, 
+from djangodemo.views import (recipes_view, recipe_detail_view,
+                              author_detail_view, add_recipe_view,
+                              add_author_view, login_view, signup_view,
                               logout_view, favorites_view, RecipeUpdate)
 
 
