@@ -32,7 +32,7 @@
 
 
         
-        {% if request.user == logged_in_user %}
+        {% if request_user == logged_in_user %}
         <form action="" method="post">
             {% csrf_token %}
             <input type="hidden" value="{{ item.title }}" name="title">

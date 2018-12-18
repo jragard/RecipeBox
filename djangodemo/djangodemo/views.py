@@ -39,7 +39,7 @@ def recipe_detail_view(request, pk):
 
 
 
-    return render(request, 'recipe_view.html', {'data': result, 'request.user': str(request.user), 'logged_in_user': str(logged_in_user.first()), 'author': author, 'staff': staff})
+    return render(request, 'recipe_view.html', {'data': result, 'request_user': str(request.user), 'logged_in_user': str(logged_in_user.first()), 'author': author, 'staff': staff})
 
 
 def favorites_view(request, name):
@@ -66,7 +66,7 @@ def recipes_view(request):
     results = RecipeItem.objects.all()
 
     logged_in_user = Author.objects.filter(name=request.user)
-    return render(request, 'recipes_view.html', {'data': results, 'user': logged_in_user.first()})
+    return render(request, 'recipes_view.html', {'data': results, 'logged_in_user': str(logged_in_user.first()), 'request_user': str(request.user)})
 
 
 def author_detail_view(request, name):
