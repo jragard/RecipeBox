@@ -22,15 +22,51 @@ def recipe_detail_view(request, pk):
     for x in result:
         author = str(x.author)
 
-    logged_in_user = str(request.user)
+    logged_in_user = Author.objects.filter(name=request.user)
+    print(str(logged_in_user.first()))
+    print(str(request.user))
     staff = request.user.is_staff
-    return render(request, 'recipe_view.html', {'data': result, 'user': logged_in_user, 'author': author, 'staff': staff})
 
+    # favorites = []
+
+    if request.method == 'POST':
+        targeted_recipe = RecipeItem.objects.filter(title=request.POST['title']).first()
+        print(targeted_recipe)
+        print(logged_in_user.first())
+        targeted_recipe.favorites.add(logged_in_user.first())
+        targeted_recipe.save()
+        print(targeted_recipe.favorites.all())
+
+
+
+    return render(request, 'recipe_view.html', {'data': result, 'request.user': str(request.user), 'logged_in_user': str(logged_in_user.first()), 'author': author, 'staff': staff})
+
+
+def favorites_view(request, name):
+    user = Author.objects.filter(name=name)
+    
+    favorites_list = []
+    all_recipes = RecipeItem.objects.all()
+    # print(all_recipes)
+    
+    for recipe in all_recipes:
+        print(recipe.favorites.all())
+        for author in recipe.favorites.all():
+            print(author.name)
+            if author.name == user.first().name:
+                print('yes')
+                favorites_list.append(recipe)
+
+    print(favorites_list)
+
+    return render(request, 'favorites_view.html', {'favorites': favorites_list})
 
 def recipes_view(request):
-    print(BASE_DIR)
+    
     results = RecipeItem.objects.all()
-    return render(request, 'recipes_view.html', {'data': results})
+
+    logged_in_user = Author.objects.filter(name=request.user)
+    return render(request, 'recipes_view.html', {'data': results, 'user': logged_in_user.first()})
 
 
 def author_detail_view(request, name):

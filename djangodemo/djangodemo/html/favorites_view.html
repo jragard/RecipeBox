@@ -1,0 +1,14 @@
+<h1>Favorites</h1>
+
+<ul>
+{% for recipe in favorites %}
+
+<li>
+    <a href="recipe/{{recipe.pk}}">{{ recipe.title }}</a>.
+     -- by 
+     <a href="author/{{recipe.author}}">{{ recipe.author }}</a>
+</li>
+
+{% endfor %}
+
+</ul>

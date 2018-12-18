@@ -22,5 +22,9 @@
                 </li>
             {% endfor %}
         </ul>
+
+        {% for item in data %}
+        <a href="/favorites/{{ item.name }}">Favorites</a>
+        {% endfor %}
     
 </body>

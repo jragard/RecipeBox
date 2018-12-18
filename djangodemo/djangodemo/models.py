@@ -6,7 +6,6 @@ from django.shortcuts import reverse
 class Author(models.Model):
     name = models.CharField(max_length=50)
     bio = models.TextField(max_length=4000)
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -19,6 +18,7 @@ class RecipeItem(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     time_required = models.CharField(max_length=50)
     instructions = models.TextField(max_length=2000)
+    favorites = models.ManyToManyField(Author, related_name="author")
 
     def get_absolute_url(self):
         return reverse('homepage')

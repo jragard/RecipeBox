@@ -19,7 +19,7 @@ from djangodemo.models import Author, RecipeItem
 from djangodemo.views import (recipes_view, recipe_detail_view, 
                               author_detail_view, add_recipe_view, 
                               add_author_view, login_view, signup_view, 
-                              logout_view, RecipeUpdate)
+                              logout_view, favorites_view, RecipeUpdate)
 
 
 admin.site.register(Author)
@@ -28,6 +28,7 @@ admin.site.register(RecipeItem)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', recipes_view, name='homepage'),
+    path('favorites/<str:name>', favorites_view),
     path('recipe/<int:pk>', recipe_detail_view),
     path('recipe/edit/<int:pk>', RecipeUpdate.as_view()),
     path('author/<str:name>', author_detail_view),
