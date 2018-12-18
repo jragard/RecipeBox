@@ -27,6 +27,7 @@ def recipe_detail_view(request, pk):
         targeted_recipe = (RecipeItem.objects.filter(
                            title=request.POST['title']).first()
                            )
+        print(targeted_recipe)
         targeted_recipe.favorites.add(logged_in_user.first())
         targeted_recipe.save()
 
